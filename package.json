@@ -1,0 +1,64 @@
+{
+  "name": "sp8ship-server",
+  "version": "0.0.1",
+  "author": "Paul M. Dorr",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "codegen": "graphql-codegen --config codegen.ts",
+    "eslint": "eslint \"src/**/*.ts\"",
+    "test": "ava",
+    "test:watch": "ava --watch",
+    "test:nyan": "ava --verbose --tap | tap-nyan"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.9.5",
+    "@graphql-tools/load-files": "^7.0.0",
+    "@graphql-tools/merge": "^9.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "graphql": "^16.8.1",
+    "pg": "^8.11.3",
+    "postgres-migrations": "^5.3.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@ava/typescript": "^4.1.0",
+    "@graphql-codegen/cli": "5.0.0",
+    "@graphql-codegen/typescript": "4.0.1",
+    "@graphql-codegen/typescript-resolvers": "4.0.1",
+    "@types/cors": "^2.8.16",
+    "@types/node": "^20.8.10",
+    "@types/uuid": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^6.9.1",
+    "@typescript-eslint/parser": "^6.9.1",
+    "ava": "^5.3.1",
+    "eslint": "^8.53.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "tap-nyan": "^1.1.0",
+    "ts-node": "^10.9.1",
+    "tsc-watch": "^6.0.4",
+    "tsx": "^3.14.0"
+  },
+  "ava": {
+    "files": [
+      "**/test/*.ts"
+    ],
+    "typescript": {
+      "rewritePaths": {
+        "src/": "dist/"
+      },
+      "compile": "tsc"
+    },
+    "concurrency": 5,
+    "failFast": true,
+    "failWithoutAssertions": false,
+    "verbose": true
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "lib": ["es2023"],
+    "module": "node16",
+    "target": "es2022",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node16",                 
+    "outDir": "./dist",                             
+    "rootDir": "./src",
+    "rootDirs": ["src"],
+    "typeRoots": ["node_modules/@types", "src/@types"],
+    "strictPropertyInitialization": false,
+    "noImplicitAny": false
+  },
+  "files": ["src/@types/graphql.d.ts"],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}

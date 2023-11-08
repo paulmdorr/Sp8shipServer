@@ -24,10 +24,6 @@ class Entity {
     return this.components.find((component) => component.name === name);
   }
 
-  public update() {
-    this.components.forEach((component) => component.update());
-  }
-
   public setWorld(world: World) {
     this._world = world;
   }

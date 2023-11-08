@@ -44,7 +44,6 @@ class World {
 
   public update() {
     this.systems.forEach((system) => system.update());
-    this.entities.forEach((entity) => entity.update());
   }
 
   public getEntity(name: string): Entity | undefined {
@@ -61,14 +60,15 @@ class World {
     );
   }
 
-  public getComponentsByType(name: string): Component[] | undefined {
-    return this.componentsByType.get(name);
+  public getComponentsByType(type: string): Component[] | undefined {
+    return this.componentsByType.get(type);
   }
 
   private addComponent(component: Component) {
-    const components = this.componentsByType.get(component.name) || [];
+    const componentType = component.constructor.name;
+    const components = this.componentsByType.get(componentType) || [];
     components.push(component);
-    this.componentsByType.set(component.constructor.name, components);
+    this.componentsByType.set(componentType, components);
   }
 }
 

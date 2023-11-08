@@ -11,8 +11,6 @@ abstract class Component {
   public setEntity(entity: Entity) {
     this.entity = entity;
   }
-
-  public abstract update(): void;
 }
 
 export default Component;

@@ -3,7 +3,7 @@ import Entity from '../ecs/entity';
 import Component from '../ecs/component';
 import System from '../ecs/system';
 
-const world = new World();
+const world = new World(1000);
 const entity = new Entity('Test Entity');
 
 class TestComponent extends Component {

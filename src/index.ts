@@ -23,7 +23,7 @@ const server = new ApolloServer({
 });
 
 server.start().then(() => {
-  world.update();
+  world.start();
 
   app.use(
     '/graphql',

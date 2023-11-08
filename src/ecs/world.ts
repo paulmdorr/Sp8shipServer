@@ -6,9 +6,12 @@ class World {
   public systems: System[] = [];
   public entities: Entity[] = [];
   public componentsByType: Map<string, Component[]> = new Map();
+  public mainLoopInterval: number;
 
-  constructor() {
-    console.log('Hello World');
+  private _shouldStop = false;
+
+  constructor(mainLoopInterval: number) {
+    this.mainLoopInterval = mainLoopInterval;
   }
 
   public addSystem(system: System) {
@@ -23,6 +26,20 @@ class World {
     entity.components.forEach((component) => {
       this.addComponent(component);
     });
+  }
+
+  public start() {
+    this.mainLoop();
+  }
+
+  private mainLoop() {
+    this.update();
+
+    if (!this._shouldStop) {
+      setTimeout(() => {
+        this.mainLoop();
+      }, this.mainLoopInterval);
+    }
   }
 
   public update() {

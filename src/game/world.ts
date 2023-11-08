@@ -1,25 +1,31 @@
 import World from '../ecs/world';
-import Entity from '../ecs/entity';
-import Component from '../ecs/component';
 import System from '../ecs/system';
+import { generatePlanets } from './planets/planets.generator';
+import PlanetTypesComponent from './planets/planetTypes.component';
+import ResourcesComponent from './planets/resources.component';
 
 const world = new World(1000);
-const entity = new Entity('Test Entity');
-
-class TestComponent extends Component {
-  public update() {
-    console.log('TestComponent update');
-  }
-}
 
 class TestSystem extends System {
   public update() {
-    console.log('TestSystem update');
+    // console.log('TestSystem update');
   }
 }
 
-entity.addComponent(new TestComponent('Test Component'));
-world.addEntity(entity);
+const planets = generatePlanets(1000);
+
+for (const planet of planets) {
+  world.addEntity(planet);
+  console.log(`Added planet ${planet.name}`);
+  //print types and resources
+  console.log(
+    (planet.getComponent('PlanetTypes') as PlanetTypesComponent).types,
+  );
+  console.log(
+    (planet.getComponent('Resources') as ResourcesComponent).resources,
+  );
+}
+
 world.addSystem(new TestSystem('Test System'));
 
 export default world;

@@ -1,0 +1,31 @@
+type Query {
+  planets: [Planet!]!
+  planet(id: ID!): Planet!
+}
+
+type Mutation {
+  addPlanet(input: AddPlanetInput!): Planet!
+  addResourceToPlanet(planetId: ID!, input: AddResourceInput!): Planet!
+}
+
+type Planet {
+  id: ID!
+  name: String!
+  resources: [Resource]!
+}
+
+type Resource {
+  id: ID!
+  name: String!
+  amount: Int!
+}
+
+input AddPlanetInput {
+  name: String!
+  resources: [AddResourceInput!]!
+}
+
+input AddResourceInput {
+  name: String!
+  amount: Int!
+}

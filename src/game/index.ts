@@ -1,7 +1,6 @@
 import World from '../ecs/world';
 import System from '../ecs/system';
 import { generatePlanets } from './planets/planets.generator';
-import PlanetTypesComponent from './planets/planetTypes.component';
 import ResourcesComponent from './planets/resources.component';
 import {
   AddResourceEventData,

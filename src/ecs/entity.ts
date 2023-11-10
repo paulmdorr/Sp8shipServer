@@ -24,6 +24,10 @@ class Entity {
     return this.components.find((component) => component.name === name);
   }
 
+  public hasComponent(name: string): boolean {
+    return this.getComponent(name) !== undefined;
+  }
+
   public setWorld(world: World) {
     this._world = world;
   }

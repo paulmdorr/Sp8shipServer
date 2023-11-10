@@ -9,10 +9,6 @@ class ResourcesComponent extends Component {
     this.resources = resources ?? new Map();
   }
 
-  public addResource(name: ResourceType, amount: number) {
-    this.resources.set(name, this.resources.get(name) ?? 0 + amount);
-  }
-
   public getResourceAmount(name: ResourceType): number {
     return this.resources.get(name) ?? 0;
   }

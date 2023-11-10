@@ -7,7 +7,7 @@ import 'dotenv/config';
 import { loadFilesSync } from '@graphql-tools/load-files';
 import { mergeTypeDefs } from '@graphql-tools/merge';
 import resolvers from './graphql/resolvers/index';
-import world from './game/world';
+import game from './game';
 
 const { SERVER_PORT } = process.env;
 const app = express();
@@ -23,7 +23,7 @@ const server = new ApolloServer({
 });
 
 server.start().then(() => {
-  world.start();
+  game.start();
 
   app.use(
     '/graphql',

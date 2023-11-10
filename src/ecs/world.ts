@@ -1,6 +1,7 @@
 import System from './system';
 import Entity from './entity';
 import Component from './component';
+import { Event } from './event';
 
 class World {
   public systems: System[] = [];
@@ -9,6 +10,8 @@ class World {
   public mainLoopInterval: number;
 
   private _shouldStop = false;
+  private _availableEvents: Map<string, Event> = new Map();
+  private _eventsQueue: Event[] = [];
 
   constructor(mainLoopInterval: number) {
     this.mainLoopInterval = mainLoopInterval;
@@ -28,11 +31,24 @@ class World {
     });
   }
 
+  public addEvent(name: string, event: Event) {
+    this._availableEvents.set(name, event);
+  }
+
+  public getEvent(name: string): Event | undefined {
+    return this._availableEvents.get(name);
+  }
+
+  public addEventToQueue(event: Event) {
+    this._eventsQueue.push(event);
+  }
+
   public start() {
     this.mainLoop();
   }
 
   private mainLoop() {
+    this.processEvents();
     this.update();
 
     if (!this._shouldStop) {
@@ -46,8 +62,8 @@ class World {
     this.systems.forEach((system) => system.update());
   }
 
-  public getEntity(name: string): Entity | undefined {
-    return this.entities.find((entity) => entity.name === name);
+  public getEntity(uuid: string): Entity | undefined {
+    return this.entities.find((entity) => entity.id === uuid);
   }
 
   public getSystem(name: string): System | undefined {
@@ -69,6 +85,14 @@ class World {
     const components = this.componentsByType.get(componentType) || [];
     components.push(component);
     this.componentsByType.set(componentType, components);
+  }
+
+  private processEvents() {
+    this._eventsQueue.forEach((event) => {
+      event.invoke();
+    });
+
+    this._eventsQueue = [];
   }
 }
 

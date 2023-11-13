@@ -1,10 +1,9 @@
 type Query {
   planets: [Planet!]!
-  planet(id: ID!): Planet!
+  planet(planetId: ID!): Planet
 }
 
 type Mutation {
-  addPlanet(input: AddPlanetInput!): Planet!
   addResourceToPlanet(planetId: ID!, input: AddResourceInput!): Boolean!
 }
 
@@ -15,14 +14,8 @@ type Planet {
 }
 
 type Resource {
-  id: ID!
   type: String!
   amount: Int!
-}
-
-input AddPlanetInput {
-  name: String!
-  resources: [AddResourceInput!]!
 }
 
 input AddResourceInput {

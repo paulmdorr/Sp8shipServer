@@ -1,27 +1,18 @@
-import { ResourceType } from '../../game/planets/planets.generator.js';
-import ResourcesComponent from '../../game/planets/resources.component.js';
-import {
-  AddPlanetInput,
-  AddResourceInput,
-  Planet,
-  Scalars,
-} from '../../generated/graphql.js';
+import { AddResourceInput, Scalars } from '../../generated/graphql.js';
 import {
   getAllPlanets,
-  addPlanet,
   addResourceToPlanet,
+  getPlanetById,
 } from '../../services/planets.service.js';
 
 const resolvers = {
   Query: {
     planets: () => getAllPlanets(),
+    planet: (_, { planetId }: { planetId: Scalars['ID']['input'] }) => {
+      return getPlanetById(planetId);
+    },
   },
   Mutation: {
-    addPlanet: (_, { input }: { input: AddPlanetInput }) => {
-      const newPlanet = addPlanet(input);
-
-      return newPlanet;
-    },
     addResourceToPlanet: (
       _,
       {

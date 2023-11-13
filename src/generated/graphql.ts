@@ -16,11 +16,6 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export type AddPlanetInput = {
-  name: Scalars['String']['input'];
-  resources: Array<AddResourceInput>;
-};
-
 export type AddResourceInput = {
   amount: Scalars['Int']['input'];
   type: Scalars['String']['input'];
@@ -34,14 +29,8 @@ export type AddUserInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addPlanet: Planet;
   addResourceToPlanet: Scalars['Boolean']['output'];
   addUser: User;
-};
-
-
-export type MutationAddPlanetArgs = {
-  input: AddPlanetInput;
 };
 
 
@@ -65,19 +54,18 @@ export type Planet = {
 export type Query = {
   __typename?: 'Query';
   hello?: Maybe<Scalars['String']['output']>;
-  planet: Planet;
+  planet?: Maybe<Planet>;
   planets: Array<Planet>;
 };
 
 
 export type QueryPlanetArgs = {
-  id: Scalars['ID']['input'];
+  planetId: Scalars['ID']['input'];
 };
 
 export type Resource = {
   __typename?: 'Resource';
   amount: Scalars['Int']['output'];
-  id: Scalars['ID']['output'];
   type: Scalars['String']['output'];
 };
 
@@ -160,7 +148,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  AddPlanetInput: AddPlanetInput;
   AddResourceInput: AddResourceInput;
   AddUserInput: AddUserInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
@@ -176,7 +163,6 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  AddPlanetInput: AddPlanetInput;
   AddResourceInput: AddResourceInput;
   AddUserInput: AddUserInput;
   Boolean: Scalars['Boolean']['output'];
@@ -191,7 +177,6 @@ export type ResolversParentTypes = {
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addPlanet?: Resolver<ResolversTypes['Planet'], ParentType, ContextType, RequireFields<MutationAddPlanetArgs, 'input'>>;
   addResourceToPlanet?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddResourceToPlanetArgs, 'input' | 'planetId'>>;
   addUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationAddUserArgs, 'input'>>;
 };
@@ -205,13 +190,12 @@ export type PlanetResolvers<ContextType = any, ParentType extends ResolversParen
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  planet?: Resolver<ResolversTypes['Planet'], ParentType, ContextType, RequireFields<QueryPlanetArgs, 'id'>>;
+  planet?: Resolver<Maybe<ResolversTypes['Planet']>, ParentType, ContextType, RequireFields<QueryPlanetArgs, 'planetId'>>;
   planets?: Resolver<Array<ResolversTypes['Planet']>, ParentType, ContextType>;
 };
 
 export type ResourceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Resource'] = ResolversParentTypes['Resource']> = {
   amount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

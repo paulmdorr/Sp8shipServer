@@ -1,7 +1,13 @@
 import game from '../game';
-import { AddPlanetInput } from '../generated/graphql';
+import { AddPlanetInput, AddResourceInput } from '../generated/graphql';
 import Entity from '../ecs/entity';
 import ResourcesComponent from '../game/planets/resources.component';
+import { ResourceType } from '../game/planets/planets.generator';
+import { TypedEvent } from '../ecs/event';
+import {
+  AddResourceEventData,
+  RESOURCE_EVENT_NAME,
+} from '../game/planets/resources.events';
 
 function getAllPlanets() {
   const planets = game.entities.filter((entity) =>
@@ -17,8 +23,8 @@ function getAllPlanets() {
       id: planet.id,
       name: planet.name,
       resources: Array.from(resourcesComponent.resources.entries()).map(
-        ([name, amount]) => ({
-          name,
+        ([type, amount]) => ({
+          type,
           amount,
         }),
       ),
@@ -41,4 +47,22 @@ function addPlanet(planetData: AddPlanetInput) {
   return planet;
 }
 
-export { getAllPlanets, getPlanetById, addPlanet };
+function addResourceToPlanet(planetId: string, resourceData: AddResourceInput) {
+  const addResourceToPlanetEvent = {
+    planetUUID: planetId,
+    resourceType: resourceData.type as ResourceType,
+    amount: resourceData.amount,
+    world: game,
+  };
+  const resourcesEventSaved = game.getEvent(
+    RESOURCE_EVENT_NAME,
+  ) as TypedEvent<AddResourceEventData>;
+  const instantiatedResourcesEvent = resourcesEventSaved?.instantiate(
+    addResourceToPlanetEvent,
+  );
+  instantiatedResourcesEvent.data = addResourceToPlanetEvent;
+
+  game.addEventToQueue(instantiatedResourcesEvent);
+}
+
+export { getAllPlanets, getPlanetById, addPlanet, addResourceToPlanet };

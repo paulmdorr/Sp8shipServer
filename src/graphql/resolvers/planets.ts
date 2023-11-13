@@ -8,8 +8,8 @@ import {
 } from '../../generated/graphql.js';
 import {
   getAllPlanets,
-  getPlanetById,
   addPlanet,
+  addResourceToPlanet,
 } from '../../services/planets.service.js';
 
 const resolvers = {
@@ -29,26 +29,11 @@ const resolvers = {
         input,
       }: { planetId: Scalars['ID']['input']; input: AddResourceInput },
     ) => {
-      const planets = getAllPlanets();
-      const planet = planets.find((planet) => planet.id === planetId);
-      const { name, amount } = input;
-      const resourcesComponent = planet?.getComponent(
-        'Resources',
-      ) as ResourcesComponent;
+      const { type, amount } = input;
 
-      if (!planet) {
-        throw new Error(`Planet with id ${planetId} not found`);
-      }
+      addResourceToPlanet(planetId, { type, amount });
 
-      const newResource = {
-        id: String(resourcesComponent.resources.values.length + 1),
-        name,
-        amount,
-      };
-
-      resourcesComponent.resources.set(ResourceType[name], amount);
-
-      return newResource;
+      return true;
     },
   },
 };

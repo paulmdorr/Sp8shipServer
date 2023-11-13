@@ -17,14 +17,13 @@ export type Scalars = {
 };
 
 export type AddPlanetInput = {
-  email: Scalars['String']['input'];
   name: Scalars['String']['input'];
   resources: Array<AddResourceInput>;
 };
 
 export type AddResourceInput = {
   amount: Scalars['Int']['input'];
-  name: Scalars['String']['input'];
+  type: Scalars['String']['input'];
 };
 
 export type AddUserInput = {
@@ -36,7 +35,7 @@ export type AddUserInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   addPlanet: Planet;
-  addResourceToPlanet: Planet;
+  addResourceToPlanet: Scalars['Boolean']['output'];
   addUser: User;
 };
 
@@ -68,8 +67,6 @@ export type Query = {
   hello?: Maybe<Scalars['String']['output']>;
   planet: Planet;
   planets: Array<Planet>;
-  user: User;
-  users: Array<User>;
 };
 
 
@@ -77,16 +74,11 @@ export type QueryPlanetArgs = {
   id: Scalars['ID']['input'];
 };
 
-
-export type QueryUserArgs = {
-  id: Scalars['ID']['input'];
-};
-
 export type Resource = {
   __typename?: 'Resource';
   amount: Scalars['Int']['output'];
   id: Scalars['ID']['output'];
-  name: Scalars['String']['output'];
+  type: Scalars['String']['output'];
 };
 
 export type User = {
@@ -200,7 +192,7 @@ export type ResolversParentTypes = {
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   addPlanet?: Resolver<ResolversTypes['Planet'], ParentType, ContextType, RequireFields<MutationAddPlanetArgs, 'input'>>;
-  addResourceToPlanet?: Resolver<ResolversTypes['Planet'], ParentType, ContextType, RequireFields<MutationAddResourceToPlanetArgs, 'input' | 'planetId'>>;
+  addResourceToPlanet?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddResourceToPlanetArgs, 'input' | 'planetId'>>;
   addUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationAddUserArgs, 'input'>>;
 };
 
@@ -215,14 +207,12 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   planet?: Resolver<ResolversTypes['Planet'], ParentType, ContextType, RequireFields<QueryPlanetArgs, 'id'>>;
   planets?: Resolver<Array<ResolversTypes['Planet']>, ParentType, ContextType>;
-  user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
-  users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
 export type ResourceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Resource'] = ResolversParentTypes['Resource']> = {
   amount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

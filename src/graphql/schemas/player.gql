@@ -1,0 +1,21 @@
+type Query {
+  players: [Player!]!
+  player(id: ID!): Player!
+}
+
+type Mutation {
+  createPlayer(name: String!, faction: Faction!): Player!
+  updatePlayer(id: ID!, name: String, faction: Faction): Player!
+  deletePlayer(id: ID!): Player!
+}
+
+type Player {
+  id: ID!
+  name: String!
+  faction: Faction!
+}
+
+enum Faction {
+  Rebel
+  Imperial
+}
